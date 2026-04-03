@@ -2,13 +2,22 @@ pipeline {
     agent any
 
     stages {
-        stage('Deploy Website') {
+        stage('Build Docker Image') {
             steps {
-                sh '''
-                cd $WORKSPACE
-                pkill -f "python3 -m http.server" || true
-                nohup python3 -m http.server 8081 > server.log 2>&1 &
-                '''
+                sh 'sudo docker build -t myapp .'
+            }
+        }
+
+        stage('Stop Old Container') {
+            steps {
+                sh 'sudo docker stop myapp-container || true'
+                sh 'sudo docker rm myapp-container || true'
+            }
+        }
+
+        stage('Run New Container') {
+            steps {
+                sh 'sudo docker run -d -p 8082:80 --name myapp-container myapp'
             }
         }
     }
