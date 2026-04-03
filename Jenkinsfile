@@ -2,21 +2,13 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        stage('Deploy Website') {
             steps {
-                echo 'Build stage - version 2'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                echo 'Test stage running - version 2'
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo 'Deploy stage - NEW deployment'
+                sh '''
+                cd $WORKSPACE
+                pkill -f "python3 -m http.server" || true
+                nohup python3 -m http.server 8081 > server.log 2>&1 &
+                '''
             }
         }
     }
