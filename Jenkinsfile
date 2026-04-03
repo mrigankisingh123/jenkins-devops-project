@@ -4,19 +4,19 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building UPDATED project...'
+                echo 'Build stage - version 2'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Running tests...'
+                echo 'Test stage running - version 2'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploying UPDATED application...'
+                echo 'Deploy stage - NEW deployment'
             }
         }
     }
